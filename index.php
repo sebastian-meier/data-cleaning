@@ -71,15 +71,20 @@
 										$string .= ",";
 									}
 
+									$col = str_replace(array('"', ','), '', $col);
+									$col = preg_replace( "/\r|\n/", "", $col );
+
 									//Replace empty values with zeros
 									if((strlen($col)<1)||($col=="na")||($col=="NA")||($col=="n/a")||($col=="N/A")){
 										$col = "0";
 									}
 
 									//For some weird reason RAW sometimes doesn't like " or ' ?!
-									$string .= str_replace(array('"', ','), '', $col);
+									$string .= $col;
 									$firstcol = false;
 								}
+
+								$string .= "\r\n";
 
 							}
 						}
@@ -97,13 +102,18 @@
 									$string .= ",";
 								}
 
+								$col = str_replace(array('"', ','), '', $col);
+								$col = preg_replace( "/\r|\n/", "", $col );
+
 								//Convert 2014M01 INTO 2014-01-01
 								//Convert 2014Q1 INTO 2014-01-01
 								if(is_numeric(substr($col, 0, 4))){
 									if(substr($col, 4, 1)=="M"){
-										$col = substr($col, 4, 1).'-'.substr($col, 5).'-01 00:00:00';
+										$col = substr($col, 0, 4).'-'.substr($col, 5).'-01 00:00:00';
 									}elseif(substr($col, 4, 1)=="Q"){
-										$col = substr($col, 4, 1).'-'.(((intval(substr($col, 5))-1)*3)+1).'-01 00:00:00';
+										$m = (((intval(substr($col, 5))-1)*3)+1);
+										if($m<10){$m="0".$m;}
+										$col = substr($col, 0, 4).'-'.$m.'-01 00:00:00';
 									}
 								}
 
@@ -116,7 +126,13 @@
 								if(is_numeric(str_replace(",", "", $col))){
 									$col = str_replace(",", "", $col);
 								}
+
+								//For some weird reason RAW sometimes doesn't like " or ' ?!
+								$string .= $col;
+								$firstcol = false;
 							}
+
+							$string .= "\r\n";
 						}
 
 					}
