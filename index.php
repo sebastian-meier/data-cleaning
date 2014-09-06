@@ -72,7 +72,7 @@
 									}
 
 									//Replace empty values with zeros
-									if((strlen($col)<1) || ($col=="na") || ($col=="NA") || ($col=="n/a") || ($col=="N/A")){
+									if((strlen($col)<1)||($col=="na")||($col=="NA")||($col=="n/a")||($col=="N/A")){
 										$col = "0";
 									}
 
@@ -99,16 +99,16 @@
 
 								//Convert 2014M01 INTO 2014-01-01
 								//Convert 2014Q1 INTO 2014-01-01
-								if(is_numeric(substr($col, 0, 4)){
-									if(is_numeric(substr($col, 4, 1)=="M"){
+								if(is_numeric(substr($col, 0, 4))){
+									if(substr($col, 4, 1)=="M"){
 										$col = substr($col, 4, 1).'-'.substr($col, 5).'-01 00:00:00';
-									}elseif(is_numeric(substr($col, 4, 1)=="Q"){
-										$col = substr($col, 4, 1).'-'.((intval(substr($col, 5))-1)*3)+1.'-01 00:00:00';
+									}elseif(substr($col, 4, 1)=="Q"){
+										$col = substr($col, 4, 1).'-'.(((intval(substr($col, 5))-1)*3)+1).'-01 00:00:00';
 									}
 								}
 
 								//Replace empty values with zeros
-								if((strlen($col)<1) || ($col==":") || ($col=="na") || ($col=="NA") || ($col=="n/a") || ($col=="N/A")){
+								if((strlen($col)<1)||($col==":")||($col=="na")||($col=="NA")||($col=="n/a")||($col=="N/A")){
 									$col = "0";
 								}
 
